@@ -6,13 +6,14 @@ import { ArtworkSummary, ArtworkDetail, ArticApiResponse } from './types';
 
 interface ArtworkListProps {
     artworks: ArtworkSummary[];
+    artworkIds: number[];
     searchQuery: string;
     setSearchQuery: (query: string) => void;
     sortConfig: { key: keyof ArtworkSummary; direction: 'ascending' | 'descending' };
     setSortConfig: (config: { key: keyof ArtworkSummary; direction: 'ascending' | 'descending' }) => void;
 }
 
-const ArtworkList: React.FC<ArtworkListProps> = ({ artworks, searchQuery, setSearchQuery, sortConfig, setSortConfig }) => {
+const ArtworkList: React.FC<ArtworkListProps> = ({ artworks, artworkIds, searchQuery, setSearchQuery, sortConfig, setSortConfig }) => {
     const handleSort = (key: keyof ArtworkSummary) => {
         const direction = sortConfig.key === key && sortConfig.direction === 'ascending' ? 'descending' : 'ascending';
         setSortConfig({ key, direction });
@@ -43,7 +44,7 @@ const ArtworkList: React.FC<ArtworkListProps> = ({ artworks, searchQuery, setSea
                 {artworks.length > 0 ? (
                     artworks.map(artwork => (
                         <li key={artwork.id}>
-                            <Link to={`/artwork/${artwork.id}`}>
+                            <Link to={`/artwork/${artwork.id}`} state={{ allIds: artworkIds }}>
                                 <span className="artwork-title">{artwork.title}</span>
                                 <span className="artwork-artist"> by {artwork.artist_display}</span>
                             </Link>
@@ -60,12 +61,13 @@ const ArtworkList: React.FC<ArtworkListProps> = ({ artworks, searchQuery, setSea
 
 interface ArtworkGalleryProps {
     artworks: ArtworkSummary[];
+    artworkIds: number[];
     categories: string[];
     selectedCategories: string[];
     onCategoryChange: (category: string) => void;
 }
 
-const ArtworkGallery: React.FC<ArtworkGalleryProps> = ({ artworks, categories, selectedCategories, onCategoryChange }) => {
+const ArtworkGallery: React.FC<ArtworkGalleryProps> = ({ artworks, artworkIds, categories, selectedCategories, onCategoryChange }) => {
     const baseImageUrl = 'https://www.artic.edu/iiif/2';
 
     return (
@@ -88,7 +90,7 @@ const ArtworkGallery: React.FC<ArtworkGalleryProps> = ({ artworks, categories, s
             </div>
             <div className="gallery-grid">
                 {artworks.map(artwork => (
-                    <Link to={`/artwork/${artwork.id}`} key={artwork.id} className="gallery-card">
+                    <Link to={`/artwork/${artwork.id}`} key={artwork.id} className="gallery-card" state={{ allIds: artworkIds }}>
                         <div className="gallery-image-container">
                             {artwork.image_id ? (
                                 <img
@@ -262,6 +264,8 @@ export default function App() {
     };
 
     const allArtworkIds = useMemo(() => artworks.map(art => art.id), [artworks]);
+    const listArtworkIds = useMemo(() => filteredAndSortedArtworks.map(art => art.id), [filteredAndSortedArtworks]);
+    const galleryArtworkIds = useMemo(() => filteredGalleryArtworks.map(art => art.id), [filteredGalleryArtworks]);
 
     return (
         <div className="app-container">
@@ -284,6 +288,7 @@ export default function App() {
                         <Route path="/list" element={
                             <ArtworkList
                                 artworks={filteredAndSortedArtworks}
+                                artworkIds={listArtworkIds}
                                 searchQuery={searchQuery}
                                 setSearchQuery={setSearchQuery}
                                 sortConfig={sortConfig}
@@ -293,6 +298,7 @@ export default function App() {
                         <Route path="/gallery" element={
                             <ArtworkGallery
                                 artworks={filteredGalleryArtworks}
+                                artworkIds={galleryArtworkIds}
                                 categories={uniqueCategories}
                                 selectedCategories={selectedCategories}
                                 onCategoryChange={handleCategoryChange}
