@@ -1,38 +1,311 @@
-.App {
-  text-align: center;
+/* --- Global & Body --- */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background-color: #f4f7f9;
+    color: #333;
+    line-height: 1.6;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.app-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+/* --- Header & Navigation --- */
+.app-header {
+    background-color: #ffffff;
+    border-bottom: 1px solid #e0e0e0;
+    padding: 1rem 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 10;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.main-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
-.App-link {
-  color: #61dafb;
+.main-nav h1 {
+    margin: 0;
+    font-size: 1.5rem;
+    color: #2c3e50;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.nav-links a {
+    color: #555;
+    text-decoration: none;
+    font-weight: 500;
+    margin-left: 1.5rem;
+    padding-bottom: 0.25rem;
+    border-bottom: 2px solid transparent;
+    transition: color 0.2s, border-color 0.2s;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+    color: #3498db;
+    border-bottom-color: #3498db;
+}
+
+/* --- Main Content --- */
+.app-main {
+    flex-grow: 1;
+    padding: 2rem;
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+
+.view-container h2 {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    color: #2c3e50;
+    border-bottom: 2px solid #e0e0e0;
+    padding-bottom: 0.5rem;
+}
+
+/* --- Shared Controls & Messages --- */
+.message {
+    text-align: center;
+    font-size: 1.2rem;
+    padding: 2rem;
+}
+
+.message.error {
+    color: #e74c3c;
+}
+
+.controls-container, .filter-container {
+    background-color: #fff;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* --- List View --- */
+.search-bar {
+    width: 100%;
+    padding: 0.75rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+}
+
+.sort-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.sort-controls button {
+    background-color: #e9ecef;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.sort-controls button:hover {
+    background-color: #dee2e6;
+}
+
+.sort-controls button.active {
+    background-color: #3498db;
+    color: white;
+}
+
+.artwork-list {
+    list-style: none;
+    padding: 0;
+}
+
+.artwork-list li {
+    background-color: #fff;
+    margin-bottom: 0.5rem;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    transition: box-shadow 0.2s, transform 0.2s;
+}
+
+.artwork-list li:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.artwork-list a {
+    display: block;
+    padding: 1rem;
+    color: inherit;
+    text-decoration: none;
+}
+
+.artwork-title {
+    font-weight: 600;
+    color: #2980b9;
+}
+
+.artwork-artist {
+    color: #7f8c8d;
+}
+
+/* --- Gallery View --- */
+.filter-container h3 {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+}
+.checkbox-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+.checkbox-label input {
+    margin-right: 0.5rem;
+}
+
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1.5rem;
+}
+
+.gallery-card {
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.gallery-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0,0,0,0.15);
+}
+
+.gallery-image-container {
+    width: 100%;
+    height: 200px;
+    background-color: #f0f0f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.gallery-image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.no-image-placeholder {
+    color: #888;
+}
+
+.gallery-card-info {
+    padding: 1rem;
+}
+
+.gallery-card-title {
+    font-weight: 600;
+    margin: 0 0 0.25rem 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.gallery-card-artist {
+    font-size: 0.9rem;
+    color: #777;
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* --- Detail View --- */
+.detail-container {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.detail-card {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    margin-bottom: 2rem;
+}
+
+.detail-image {
+    width: 100%;
+    max-height: 70vh;
+    object-fit: contain;
+    background-color: #f9f9f9;
+}
+
+.detail-info {
+    padding: 2rem;
+}
+
+.detail-info h2 {
+    margin: 0 0 0.5rem;
+    font-size: 2.5rem;
+}
+.detail-info h3 {
+    margin: 0 0 1.5rem;
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: #555;
+}
+.detail-info p {
+    margin-bottom: 0.75rem;
+}
+.detail-info .description {
+    margin-top: 1.5rem;
+    line-height: 1.7;
+}
+
+.navigation-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navigation-controls button,
+.navigation-controls .back-link {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    text-decoration: none;
+    transition: background-color 0.2s;
+}
+
+.navigation-controls button:hover,
+.navigation-controls .back-link:hover {
+    background-color: #2980b9;
+}
+
+.navigation-controls button:disabled {
+    background-color: #bdc3c7;
+    cursor: not-allowed;
 }
