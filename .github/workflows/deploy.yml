@@ -33,9 +33,11 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
+        working-directory: ./mp2
 
       - name: Build site
         run: npm run build
+        working-directory: ./mp2
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
