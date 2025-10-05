@@ -263,7 +263,6 @@ export default function App() {
         );
     };
 
-    const allArtworkIds = useMemo(() => artworks.map(art => art.id), [artworks]);
     const listArtworkIds = useMemo(() => filteredAndSortedArtworks.map(art => art.id), [filteredAndSortedArtworks]);
     const galleryArtworkIds = useMemo(() => filteredGalleryArtworks.map(art => art.id), [filteredGalleryArtworks]);
 
@@ -311,17 +310,4 @@ export default function App() {
             </main>
         </div>
     );
-}
-
-const OriginalLink = Link;
-const AppLink = React.forwardRef<
-    HTMLAnchorElement,
-    React.ComponentProps<typeof OriginalLink> & { state?: any }
->(({ to, state, ...props }, ref) => {
-    const { allArtworkIds } = useApp(); // Custom hook to get IDs
-    return <OriginalLink to={to} state={{ ...state, allIds: allArtworkIds }} {...props} ref={ref} />;
-});
-
-function useApp() {
-    return { allArtworkIds: [] };
 }
